@@ -2,7 +2,7 @@ window.App = Ember.Application.create({
     LOG_TRANSITIONS: true 
 });
 
-App.ApplicationAdapter = DS.FixtureAdapter;
+App.ApplicationAdapter = DS.LSAdapter;
 
 // router initialization
 App.Router.map(function(){
@@ -18,6 +18,22 @@ App.Router.map(function(){
 App.UsersRoute = Em.Route.extend({
     model: function(){
         return this.store.find('user');
+    }
+});
+
+// users create route
+App.UsersCreateRoute = Ember.Route.extend({
+    model: function(){
+        // the model for this router is a new empty Ember.Object
+        return Em.Object.create({});
+    },
+    
+    // in this case (the create route), we can reuse the user/edit template
+    // associated with the usersCreateController
+    renderTemplate: function(){
+        this.render('user.edit', {
+            controller: 'usersCreate'
+        });
     }
 });
 
@@ -51,9 +67,58 @@ App.UsersController = Em.ArrayController.extend({
 });
 
 App.UserController = Ember.ObjectController.extend({
+    deleteMode: false, 
+    actions: {
+        edit: function(){
+            this.transitionToRoute('user.edit');
+        },
+      
+        delete: function(){
+            // our delete method now only toggles deleteMode's value
+            this.toggleProperty('deleteMode');
+        },
+        
+        cancelDelete: function(){
+            // set deleteMode back to false
+            this.set('deleteMode', false);
+        },
+    
+        confirmDelete: function(){
+            // this tells Ember-Data to delete the current user
+            this.get('model').deleteRecord();
+            this.get('model').save();
+            // and then go to the users route
+            this.transitionToRoute('users');
+            // set deleteMode back to false
+            this.set('deleteMode', false);
+        }
+    }
+});
+
+App.UserEditController = Ember.ObjectController.extend({
   actions: {
-    edit: function(){
-      this.transitionToRoute('user.edit');
+    save: function(){
+      var user = this.get('model');
+      // this will tell Ember-Data to save/persist the new record
+      user.save();
+      // then transition to the current user
+      this.transitionToRoute('user', user);
+    }
+  }
+});
+
+App.UsersCreateController = Ember.ObjectController.extend({
+  actions: {
+    save: function(){
+      // just before saving, we set the creationDate
+      this.get('model').set('creationDate', new Date());
+
+      // create a record and save it to the store
+      var newUser = this.store.createRecord('user', this.get('model'));
+      newUser.save();
+
+      // redirects to the user itself
+      this.transitionToRoute('user', newUser);
     }
   }
 });
@@ -83,3 +148,7 @@ App.User.FIXTURES = [{
     avatarUrl: '../assets/images/avatars/jk.jpg',
     creationDate: '2013-08-07'
 }];
+
+Ember.Handlebars.helper('formatDate', function(date) {
+    return moment(date).fromNow();
+});

@@ -1,13 +1,15 @@
 <div class="user-edit">
-  <label>Choose user avatar</label>
-  {{input value=avatarUrl}}
+    <label>Choose user avatar</label>
+    {{input value=avatarUrl}}
 
-  <label>User name</label>
-  {{input value=name}}
+    <label>User name</label>
+    {{input value=name}}
+    
+    <label>User email</label>
+    {{input value=email}}
 
-  <label>User email</label>
-  {{input value=email}}
-
-  <label>User short bio</label>
-  {{textarea value=bio}}
+    <label>User short bio</label>
+    {{textarea value=bio}}
+    
+    <button {{action "save"}}> ok </button>
 </div>

@@ -1,5 +1,6 @@
 
 <ul class="users-listing">
+    {{#link-to "users.create" class="create-btn"}} Add user {{/link-to}}
     <div>Users: {{usersCount}}</div>
     {{#each user in controller}}
     <li>
