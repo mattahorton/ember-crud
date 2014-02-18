@@ -1,0 +1,10 @@
+<div class="user-profile">
+    <button {{action "edit"}}>Edit</button>
+    <img {{bind-attr src="avatarUrl"}} alt="User's avatar" />
+    <h2>{{name}}</h2>
+    <span>{{email}}</span>
+    <p>{{bio}}</p>
+    <span>Created {{creationDate}}</span>
+</div>
+
+{{outlet}}
