@@ -1,13 +1,61 @@
 Ember.TEMPLATES["application"] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1;
+  var buffer = '', stack1, escapeExpression=this.escapeExpression, self=this;
 
+function program1(depth0,data) {
+  
+  var buffer = '';
+  data.buffer.push("\n        <button ");
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "invalidateSession", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
+  data.buffer.push(">Logout</button>\n    ");
+  return buffer;
+  }
 
-  data.buffer.push("<div class=\"main\">\n  <h1>Hello World</h1>\n  ");
+function program3(depth0,data) {
+  
+  var buffer = '';
+  data.buffer.push("\n        <button ");
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "authenticateSession", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
+  data.buffer.push(">Login</button>\n    ");
+  return buffer;
+  }
+
+  data.buffer.push("<div class=\"main\">\n    <h1>Hello World</h1>\n    \n    ");
+  stack1 = helpers['if'].call(depth0, "session.isAuthenticated", {hash:{},hashTypes:{},hashContexts:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n    \n    ");
   stack1 = helpers._triageMustache.call(depth0, "outlet", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n</div>");
+  return buffer;
+  
+});
+
+Ember.TEMPLATES["login"] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
+this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
+  var buffer = '', escapeExpression=this.escapeExpression;
+
+
+  data.buffer.push("<form ");
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "authenticate", {hash:{
+    'on': ("submit")
+  },hashTypes:{'on': "STRING"},hashContexts:{'on': depth0},contexts:[depth0],types:["ID"],data:data})));
+  data.buffer.push(">\n    <label for=\"identification\">Login</label>\n    ");
+  data.buffer.push(escapeExpression(helpers.view.call(depth0, "Ember.TextField", {hash:{
+    'id': ("identification"),
+    'valueBinding': ("identification"),
+    'placeholder': ("Enter Login")
+  },hashTypes:{'id': "STRING",'valueBinding': "STRING",'placeholder': "STRING"},hashContexts:{'id': depth0,'valueBinding': depth0,'placeholder': depth0},contexts:[depth0],types:["ID"],data:data})));
+  data.buffer.push("\n    <label for=\"password\">Password</label>\n    ");
+  data.buffer.push(escapeExpression(helpers.view.call(depth0, "Ember.TextField", {hash:{
+    'id': ("password"),
+    'type': ("password"),
+    'valueBinding': ("password"),
+    'placeholder': ("Enter Password")
+  },hashTypes:{'id': "STRING",'type': "STRING",'valueBinding': "STRING",'placeholder': "STRING"},hashContexts:{'id': depth0,'type': depth0,'valueBinding': depth0,'placeholder': depth0},contexts:[depth0],types:["ID"],data:data})));
+  data.buffer.push("\n    <button type=\"submit\">Login</button>\n</form>");
   return buffer;
   
 });
@@ -44,7 +92,7 @@ function program1(depth0,data) {
   stack1 = helpers._triageMustache.call(depth0, "bio", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("</p>\n    <span>Created ");
-  data.buffer.push(escapeExpression((helper = helpers.formateDate || (depth0 && depth0.formateDate),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data},helper ? helper.call(depth0, "creationDate", options) : helperMissing.call(depth0, "formateDate", "creationDate", options))));
+  data.buffer.push(escapeExpression((helper = helpers.formatDate || (depth0 && depth0.formatDate),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data},helper ? helper.call(depth0, "creationDate", options) : helperMissing.call(depth0, "formatDate", "creationDate", options))));
   data.buffer.push("</span>\n    \n    <button ");
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "delete", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
   data.buffer.push(">Delete</button>\n</div>\n\n");

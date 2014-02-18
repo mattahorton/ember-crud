@@ -1,0 +1,7 @@
+{
+  "name": "ember-crud-mattahorton",
+  "dependencies": {
+    "ember-simple-auth": "https://github.com/simplabs/ember-simple-auth-component.git",
+    "momentjs": "~2.5.1"
+  }
+}

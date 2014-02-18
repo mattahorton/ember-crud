@@ -4,8 +4,17 @@ window.App = Ember.Application.create({
 
 App.ApplicationAdapter = DS.LSAdapter;
 
+// Ember.SimpleAuth initializer
+Ember.Application.initializer({
+  name: 'authentication',
+  initialize: function(container, application) {
+    Ember.SimpleAuth.setup(application);
+  }
+});
+
 // router initialization
 App.Router.map(function(){
+    this.route('login');
     this.resource('users', function(){
         this.resource('user', { path:'/:user_id' }, function(){
             this.route('edit');
@@ -13,6 +22,9 @@ App.Router.map(function(){
         this.route('create');
     });
 });
+
+// Application route
+App.ApplicationRoute = Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin);
 
 // users route
 App.UsersRoute = Em.Route.extend({
@@ -22,7 +34,7 @@ App.UsersRoute = Em.Route.extend({
 });
 
 // users create route
-App.UsersCreateRoute = Ember.Route.extend({
+App.UsersCreateRoute = Ember.Route.extend(/*Ember.SimpleAuth.AuthenticatedRouteMixin, */{
     model: function(){
         // the model for this router is a new empty Ember.Object
         return Em.Object.create({});
@@ -45,17 +57,19 @@ App.IndexRoute = Ember.Route.extend({
 });
 
 // user route
-App.UserRoute = Ember.Route.extend({
+App.UserRoute = Ember.Route.extend(/*Ember.SimpleAuth.AuthenticatedRouteMixin, */{
   model: function(params) { 
     return this.store.find('user', params.user_id);
   }
 });
 
-App.UserEditRoute = Ember.Route.extend({
+App.UserEditRoute = Ember.Route.extend(/*(Ember.SimpleAuth.AuthenticatedRouteMixin, */{
   model: function(){ 
     return this.modelFor('user');
   }
 });
+
+App.LoginController = Ember.Controller.extend(Ember.SimpleAuth.LoginControllerMixin);
 
 App.UsersController = Em.ArrayController.extend({
     sortProperties: ['name'],
